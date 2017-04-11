@@ -9,7 +9,7 @@ if [[ -d "$HOME/.linuxbrew" ]]; then
     export PATH="$HOME/.linuxbrew/bin:$PATH"
     export MANPATH="$HOME/.linuxbrew/share/man:$MANPATH"
     export INFOPATH="$HOME/.linuxbrew/share/info:$INFOPATH"
-    fpath=( "$HOME/.linuxbrew/completions/zsh" $fpath )
   fi
+    fpath=( "$HOME/.linuxbrew/completions/zsh" $fpath )
 fi
 
