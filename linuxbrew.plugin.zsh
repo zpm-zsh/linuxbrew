@@ -5,7 +5,7 @@ if [[ ! -d "$HOME/.linuxbrew" ]]; then
 fi
 
 if [[ -d "$HOME/.linuxbrew" ]]; then
-  if [[ ":$PATH:" != *":${home}/.linuxbrew/bin:"* ]]; then
+  if [[ ":$PATH:" != *":${HOME}/.linuxbrew/bin:"* ]]; then
     export PATH="$HOME/.linuxbrew/bin:$PATH"
     export MANPATH="$HOME/.linuxbrew/share/man:$MANPATH"
     export INFOPATH="$HOME/.linuxbrew/share/info:$INFOPATH"
