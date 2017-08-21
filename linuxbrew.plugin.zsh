@@ -1,15 +1,25 @@
-local BREW_PREFIX="$HOME/.linuxbrew"
+local function export_env() {
+  local brew_prefix="$1"
+  export PATH="$brew_prefix/sbin:$brew_prefix/bin:$PATH"
+  export MANPATH="$brew_prefix/share/man:$MANPATH"
+  export INFOPATH="$brew_prefix/share/info:$INFOPATH"
+  export XDG_DATA_DIRS="$brew_prefix/share:$XDG_DATA_DIRS"
+  fpath=( "$brew_prefix/completions/zsh" $fpath )
+}
 
-if [[ ! -d "$BREW_PREFIX" ]]; then
-  git clone https://github.com/Linuxbrew/brew "$BREW_PREFIX" </dev/null >/dev/null 2>/dev/null &!
-fi
+local HOME_PREFIX="$HOME/.linuxbrew"
+local RECOMMENDED_PREFIX="/home/linuxbrew/.linuxbrew"
 
-if [[ -d "$BREW_PREFIX" ]]; then
-  if [[ ":$PATH:" != *":$BREW_PREFIX/sbin:"* ]]; then
-    export PATH="$BREW_PREFIX/sbin:$BREW_PREFIX/bin:$PATH"
-    export MANPATH="$BREW_PREFIX/share/man:$MANPATH"
-    export INFOPATH="$BREW_PREFIX/share/info:$INFOPATH"
-    export XDG_DATA_DIRS="$BREW_PREFIX/share:$XDG_DATA_DIRS"
+
+export_env $HOME_PREFIX
+export_env $RECOMMENDED_PREFIX
+
+if (( ! $+commands[brew] )); then
+  ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Linuxbrew/install/master/install)"
+  if [[ ! $? -eq 0 ]]; then
+      printf 'recommended install failed. try just cloning git repo? '
+      if read -q; then
+          echo; git clone https://github.com/Linuxbrew/brew "$HOME_PREFIX" </dev/null >/dev/null 2>/dev/null &!
+      fi
   fi
-    fpath=( "$BREW_PREFIX/completions/zsh" $fpath )
 fi
